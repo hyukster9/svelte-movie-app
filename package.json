@@ -5,6 +5,7 @@
         "dev": "run-p dev:*",
         "dev:routify": "routify",
         "dev:vite": "vite",
+        "dev:netlify": "netlify dev",
         "preview": "vite preview",
         "build": "run-s build:*",
         "build:routify": "routify -b",
@@ -23,5 +24,8 @@
         "svelte": "^3.45.0",
         "svelte-preprocess": "^4.10.1",
         "vite": "^2.7.10"
+    },
+    "dependencies": {
+        "netlify-cli": "^10.0.0"
     }
 }

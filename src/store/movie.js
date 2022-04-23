@@ -17,7 +17,8 @@ export async function searchMovies(payload) {
     if (get(loading)) return
     loading.set(true)
     try{
-        const res = await _fetchMovie({...payload, page:1 })
+        //const res = await _fetchMovie({...payload, page:1 })
+        const res = await axios.post('/.netlify/functions/movie', {...payload, page: 1})
         const { Search, totalResults } = res.data
         movies.set(Search)
         const pageLength = Math.ceil(totalResults / 10);
@@ -25,7 +26,9 @@ export async function searchMovies(payload) {
         if(pageLength > 1) {
             for (let page = 2; page <= pageLength; page += 1) {
                 if (page > payload.number / 10) break
-                const res = await _fetchMovie({...payload, page})
+                //const res = await _fetchMovie({...payload, page})
+                const res = await axios.post('/.netlify/functions/movie', {...payload, page: page})
+
                 const { SearchList } = res.data
                 movies.update(($movies) => _unionBy($movies, SearchList, "imdbID"))
             }
@@ -42,11 +45,13 @@ export async function searchMovies(payload) {
 export async function searchMovieWithId(id) {
     if (get(loading)) return
     loading.set(true)
-    const res = await _fetchMovie({id:id})
+   // const res = await _fetchMovie({id:id})
+    const res = await axios.post('/.netlify/functions/movie', {id:id})
+
     theMovie.set(res.data)
     loading.set(false)
 }
-
+/*
 function _fetchMovie(payload){
     const { title, type, year, number, page, id } = payload
     const OMDB_API_KEY = "d410c605"
@@ -69,3 +74,4 @@ function _fetchMovie(payload){
         }
     })
 }
+*/
